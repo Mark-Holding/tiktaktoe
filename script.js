@@ -63,9 +63,58 @@ const GameController = (function(){
   // Check for winner 
 
   const checkWinner = function(){
-    
-  }
+    const board = Gameboard.getBoard();
+    const winningCombinations = [
+        //rows
+        [[0, 0], [0, 1], [0, 2]],
+        [[1, 0], [1, 1], [1, 2]],
+        [[2, 0], [2, 1], [2, 2]],
 
+        // Columns
+        [[0, 0], [1, 0], [2, 0]],
+        [[0, 1], [1, 1], [2, 1]],
+        [[0, 2], [1, 2], [2, 2]],
+
+        // Diagonals
+        [[0, 0], [1, 1], [2, 2]],
+        [[0, 2], [1, 1], [2, 0]]
+    ];
+
+    for (let combo of winningCombinations) {
+        const [a, b, c] = combo;
+        if (board[a[0]][a[1]] && board[a[0]][a[1]] === board[b[0]][b[1]] && board[a[0]][a[1]] === board[c[0]][c[1]]) {
+            return currentPlayer;
+        }
+    }
+
+    return null;
+
+  };
+
+  // Public methods 
+
+  return {
+    playRound: function(row, col){
+        if (Gameboard.makeMove(currentPlayer.symbol, row, col)) {
+            const winner = checkWinner();
+            if (winner) {
+                console.log(`${winner.name} wins!`);
+                return;
+            }
+            switchTurn();
+        } else {
+            console.log('Invalid move. Try again');
+        }
+    },
+
+    // Method to reset the game
+
+    resetGame: function() {
+        Gameboard.resetBoard();
+        currentPlayer = player1;
+    }
+
+  };
 
 
 })();
