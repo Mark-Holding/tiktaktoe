@@ -37,3 +37,35 @@ const Gameboard = (function() {
 
 })();
 
+// Player factory 
+
+const Player = (name, symbol) => {
+    return {
+        name,
+        symbol
+    };
+};
+
+// GameController module
+
+const GameController = (function(){
+
+  const player1 = Player('Player 1', 'X');
+  const player2 = Player('Player 2', 'O');
+  let currentPlayer = player1;
+
+  // switch turns between players
+
+  const switchTurn = function(){
+    currentPlayer = (currentPlayer === player1) ? player2 : player1;
+  };
+
+  // Check for winner 
+
+  const checkWinner = function(){
+    
+  }
+
+
+
+})();
