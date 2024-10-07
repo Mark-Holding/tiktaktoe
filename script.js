@@ -118,3 +118,27 @@ const GameController = (function(){
 
 
 })();
+
+const displayController = (function(){
+    
+    const gameboardElement = document.getElementById('gameBoard');
+
+ // Render the contents of the gameboard array to the webpage
+  
+ const render = function(gameboard) {
+
+  // Clear the gameboard container before rendering
+    gameboardElement.innerHTML = '';
+
+  // Loop through the gameboard array
+  
+  gameboard.forEach((row, rowIndex) => {
+    
+  })
+
+ }
+
+
+
+
+})();

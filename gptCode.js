@@ -109,3 +109,31 @@ GameController.playRound(1, 0); // Player 2 makes a move at (1,0)
 GameController.playRound(0, 2); // Player 1 makes a move at (0,2) and wins
 
 
+const displayController = (function() {
+    const gameboardElement = document.getElementById('gameboard');
+
+    // Render the contents of the gameboard array to the webpage
+    const render = function(gameboard) {
+        // Clear the gameboard container before rendering
+        gameboardElement.innerHTML = '';
+
+        // Loop through the gameboard array
+        gameboard.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                // Create a new div for each cell
+                const cellElement = document.createElement('div');
+                cellElement.classList.add('cell');
+                cellElement.textContent = cell ? cell : '';  // Display 'X', 'O', or empty
+
+                // Add a data attribute to keep track of the cell's position
+                cellElement.dataset.row = rowIndex;
+                cellElement.dataset.col = colIndex;
+
+                // Append the cell to the gameboard container
+                gameboardElement.appendChild(cellElement);
+            });
+        });
+    };
+
+    return { render };
+})();
