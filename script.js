@@ -50,8 +50,8 @@ const Player = (name, symbol) => {
 
 const GameController = (function(){
 
-  const player1 = Player('Player 1', 'X');
-  const player2 = Player('Player 2', 'O');
+  let player1 = Player('Player 1', 'X');
+  let player2 = Player('Player 2', 'O');
   let currentPlayer = player1;
 
   // switch turns between players
@@ -110,6 +110,18 @@ const GameController = (function(){
         }
     },
 
+    startGame: function(){
+        const player1Name = document.getElementById('player1Name').value || 'Player 1';
+        const player2Name = document.getElementById('player2Name').value || 'Player 2';
+        player1 = Player(player1Name, 'X');
+        player2 = Player(player2Name, 'O');
+        currentPlayer = player1;
+
+        Gameboard.resetBoard();
+        displayController.render(Gameboard.getBoard());
+        displayController.updateMessage(`${currentPlayer.name}'s turn`);
+    },
+
     // Method to reset the game
 
     resetGame: function() {
@@ -124,7 +136,7 @@ const GameController = (function(){
 
 const displayController = (function(){
     
-    const gameboardElement = document.getElementById('gameBoard');
+    const gameboardElement = document.getElementById('gameboard');
     const messageDisplay = document.getElementById('messageDisplay');
 
  // Function to update the message on the webpage
@@ -138,7 +150,7 @@ const displayController = (function(){
  const render = function(gameboard) {
 
  // Clear the gameboard container before rendering
-    gameboardElement.innerHTML = '';
+  gameboardElement.innerHTML = '';
 
  // Loop through the gameboard array
   
@@ -172,6 +184,8 @@ const displayController = (function(){
 
 })();
 
-// Initial render of the empty gameboard
+// Start game when button is clicked
+document.getElementById('startBtn').addEventListener('click', GameController.startGame);
 
+// Initial render of the empty gameboard
 displayController.render(Gameboard.getBoard());
