@@ -58,6 +58,7 @@ const GameController = (function(){
 
   const switchTurn = function(){
     currentPlayer = (currentPlayer === player1) ? player2 : player1;
+    displayController.updateMessage(`${currentPlayer.name}'s turn`)
   };
 
   // Check for winner 
@@ -96,14 +97,16 @@ const GameController = (function(){
   return {
     playRound: function(row, col){
         if (Gameboard.makeMove(currentPlayer.symbol, row, col)) {
+            displayController.render(Gameboard.getBoard());
+
             const winner = checkWinner();
             if (winner) {
-                console.log(`${winner.name} wins!`);
+                displayController.updateMessage(`${winner.name} wins!`);
                 return;
             }
             switchTurn();
         } else {
-            console.log('Invalid move. Try again');
+            displayController.updateMessage('Invalid move. Try again.');
         }
     },
 
@@ -122,15 +125,22 @@ const GameController = (function(){
 const displayController = (function(){
     
     const gameboardElement = document.getElementById('gameBoard');
+    const messageDisplay = document.getElementById('messageDisplay');
+
+ // Function to update the message on the webpage
+
+ const updateMessage = function(message) {
+    messageDisplay.textContent = message;
+ };
 
  // Render the contents of the gameboard array to the webpage
   
  const render = function(gameboard) {
 
-  // Clear the gameboard container before rendering
+ // Clear the gameboard container before rendering
     gameboardElement.innerHTML = '';
 
-  // Loop through the gameboard array
+ // Loop through the gameboard array
   
   gameboard.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) =>{
@@ -143,6 +153,11 @@ const displayController = (function(){
         cellElement.dataset.row = rowIndex;
         cellElement.dataset.col = colIndex;
 
+        // Add event listener for clicks on the cell
+        cellElement.addEventListener('click', () => {
+            GameController.playRound(rowIndex, colIndex);
+        });
+
         // Append the cell to the gameboard container
         gameboardElement.appendChild(cellElement);
 
@@ -152,7 +167,11 @@ const displayController = (function(){
 
  };
 
- return { render };
+ return { render, updateMessage };
 
 
 })();
+
+// Initial render of the empty gameboard
+
+displayController.render(Gameboard.getBoard());
