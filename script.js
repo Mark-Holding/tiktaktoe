@@ -133,12 +133,26 @@ const displayController = (function(){
   // Loop through the gameboard array
   
   gameboard.forEach((row, rowIndex) => {
-    
-  })
+    row.forEach((cell, colIndex) =>{
+        // Create a new div for each cell
+        const cellElement = document.createElement('div');
+        cellElement.classList.add('cell');
+        cellElement.textContent = cell ? cell : '';
 
- }
+        // Add a data attribute to keep track of the cell's position
+        cellElement.dataset.row = rowIndex;
+        cellElement.dataset.col = colIndex;
+
+        // Append the cell to the gameboard container
+        gameboardElement.appendChild(cellElement);
 
 
+    });
+  });
+
+ };
+
+ return { render };
 
 
 })();
